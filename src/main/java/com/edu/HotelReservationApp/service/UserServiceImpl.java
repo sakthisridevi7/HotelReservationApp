@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.edu.HotelReservationApp.entity.User;
 import com.edu.HotelReservationApp.repository.UserRepository;
 
+import exception.FirstNameNotFoundException;
+import exception.GivenIdNotFoundException;
+import exception.NoRecordFoundException;
 import exception.ResourceNotFoundException;
 @Service
 public class UserServiceImpl implements UserService {
@@ -27,18 +30,32 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUserList() {
 		// TODO Auto-generated method stub
-		return userRepos.findAll();
+		List<User> users = userRepos.findAll();
+		if(users.isEmpty()) {
+			throw new NoRecordFoundException();
+		}
+		else
+		{
+			return users;
+		}
 	}
 
 
 	@Override
 	public User getUserById(long userId) {
 		// TODO Auto-generated method stub
-		User user = new User();
+		/*User user = new User();
 		user = userRepos.findById(userId).orElseThrow(
 				()->new ResourceNotFoundException("User","Id",userId));
 		
-		return user;
+		return user;*/
+		Optional<User> user = userRepos.findById(userId);
+		if(user.isPresent()) {
+			return user.get();
+		}
+		else {
+			throw new GivenIdNotFoundException();
+		}
 	}
 
 
@@ -78,7 +95,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getUserByFirstName(String firstName) {
 		// TODO Auto-generated method stub
-		return userRepos.getUserByFirstName(firstName);
+		//return userRepos.getUserByFirstName(firstName);
+		List<User> users = userRepos.getUserByFirstName(firstName);
+		if(users.isEmpty()) {
+			throw new FirstNameNotFoundException();
+		}
+		else {
+			return users;
+		}
 	}
 
 
