@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edu.HotelReservationApp.entity.Room;
-import com.edu.HotelReservationApp.entity.User;
 import com.edu.HotelReservationApp.repository.RoomRepository;
 
 import exception.GivenIdNotFoundException;
