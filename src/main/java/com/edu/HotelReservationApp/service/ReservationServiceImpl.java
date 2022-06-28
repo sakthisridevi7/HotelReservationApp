@@ -1,14 +1,18 @@
 package com.edu.HotelReservationApp.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edu.HotelReservationApp.entity.Reservation;
+import com.edu.HotelReservationApp.exception.GivenIdNotFoundException;
+import com.edu.HotelReservationApp.exception.NoRecordFoundException;
+import com.edu.HotelReservationApp.exception.ResourceNotFoundException;
 import com.edu.HotelReservationApp.repository.ReservationRepository;
 
-import exception.ResourceNotFoundException;
+
 
 @Service
 public class ReservationServiceImpl implements ReservationService{
@@ -24,19 +28,28 @@ public class ReservationServiceImpl implements ReservationService{
 	@Override
 	public List<Reservation> getReservationList() {
 		// TODO Auto-generated method stub
-		return reservationRepos.findAll();
+		
+		
+		List<Reservation> reservation = reservationRepos.findAll();
+		if(reservation.isEmpty()) {
+			throw new NoRecordFoundException();
+		}else
+		{
+			return reservation;
+		}
 	}
 
 	@Override
 	public Reservation getReservationById(long resId) {
 		// TODO Auto-generated method stub
 		
-		Reservation reservation = new Reservation();
-		reservation = reservationRepos.findById(resId).orElseThrow(
-				()-> new ResourceNotFoundException("Reservation","Id",resId));
-				
-		reservationRepos.findById(resId);
-		return reservation;
+		Optional<Reservation> reservation = reservationRepos.findById(resId);
+		if(reservation.isPresent()) {
+			return reservation.get();
+		}
+		else {
+			throw new GivenIdNotFoundException();
+		}
 	}
 
 	@Override
@@ -51,7 +64,8 @@ public class ReservationServiceImpl implements ReservationService{
 		reserv.setNoOfGuest(reservation.getNoOfGuest());
 		reserv.setCheckInDateTime(reservation.getCheckInDateTime());
 		reserv.setCheckOutDateTime(reservation.getCheckOutDateTime());
-		return null;
+		reservationRepos.save(reserv);
+		return reserv;
 	}
 
 	@Override
@@ -60,10 +74,12 @@ public class ReservationServiceImpl implements ReservationService{
 		Reservation reservation = new Reservation();
 		reservation = reservationRepos.findById(resId).orElseThrow(
 				()-> new ResourceNotFoundException("Reservation","Id",resId));
-				
-		reservationRepos.findById(resId);
-		return "Record is deleted Successfully";
+		
+		reservationRepos.deleteById(resId);
+		return "Record is deleted successfully";
 	}
+
+	
 	
 
 }

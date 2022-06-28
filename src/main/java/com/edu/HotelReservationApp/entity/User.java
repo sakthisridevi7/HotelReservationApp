@@ -2,12 +2,19 @@ package com.edu.HotelReservationApp.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -18,16 +25,28 @@ public class User {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_details_seq")
 	private long userId;
+	@Column(nullable=false)
+	@NotNull
+	@NotBlank(message="First name is mandatory")
 	private String firstName;
+	@Column(nullable=false)
+	@NotBlank(message="Last name is mandatory")
 	private String lastName;
 	private String contactNo;
+	@Column(nullable= false, unique = true)
+	@NotBlank(message="Username is mandatory")
 	private String username;
+	@NotEmpty
+	@Size(min = 8 , message = "password should have atleast 8 characters")
 	private String password;
+	@Column(nullable = false, unique = true)
+	@NotBlank(message="Email is mandatory")
+	@Email(message="Invalid email id")
 	private String emailId;
 	private long aadharNumber;
 	private String fullAddress;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user",cascade= CascadeType.REMOVE)
 	@JsonIgnoreProperties("user")
 	private List<Reservation> reservation;
 	

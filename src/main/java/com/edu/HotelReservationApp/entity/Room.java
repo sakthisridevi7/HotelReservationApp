@@ -1,5 +1,6 @@
 package com.edu.HotelReservationApp.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +22,7 @@ public class Room {
 	private double roomFare;
 	private boolean status;
 	
-	@OneToOne(mappedBy= "room")
+	@OneToOne(mappedBy= "room",cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("room")
 	private Reservation reservation;
 	

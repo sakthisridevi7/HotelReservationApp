@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edu.HotelReservationApp.entity.Room;
+import com.edu.HotelReservationApp.exception.GivenIdNotFoundException;
+import com.edu.HotelReservationApp.exception.NoRecordFoundException;
+import com.edu.HotelReservationApp.exception.ResourceNotFoundException;
+import com.edu.HotelReservationApp.exception.RoomNotFoundException;
+import com.edu.HotelReservationApp.exception.StatusRecordNotFoundException;
 import com.edu.HotelReservationApp.repository.RoomRepository;
 
-import exception.GivenIdNotFoundException;
-import exception.NoRecordFoundException;
-import exception.ResourceNotFoundException;
 @Service
 public class RoomServiceImpl implements RoomService{
 	
@@ -86,19 +88,40 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public Room getRoomByRoomNo(String roomNo) {
 		// TODO Auto-generated method stub
-		return roomRepos.getRoomByRoomNo(roomNo);
+		//return roomRepos.getRoomByRoomNo(roomNo);
+		Optional<Room> room = roomRepos.getRoomByRoomNo(roomNo);
+		if(room.isPresent()) {
+			return room.get();
+		}
+		else {
+			throw new RoomNotFoundException();
+		}
 	}
 
 	@Override
 	public List<Room> getRoomByNoOfBed(String noOfBed) {
 		// TODO Auto-generated method stub
-		return roomRepos.getRoomByNoOfBed(noOfBed);
+		//return roomRepos.getRoomByNoOfBed(noOfBed);
+		List<Room> rooms = roomRepos.getRoomByNoOfBed(noOfBed);
+		if(rooms.isEmpty()) {
+			throw new NoRecordFoundException();
+		}
+		else {
+			return rooms;
+		}
 	}
 
 	@Override
 	public List<Room> getRoomByStatus(boolean status) {
 		// TODO Auto-generated method stub
-		return roomRepos.findByStatus(status);
+		//return roomRepos.findByStatus(status);
+		List<Room> rooms = roomRepos.findByStatus(status);
+		if(rooms.isEmpty()) {
+			throw new StatusRecordNotFoundException();
+		}
+		else {
+			return rooms;
+		}
 	}
 	
 	

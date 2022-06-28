@@ -1,6 +1,6 @@
-package exception;
+package com.edu.HotelReservationApp.exception;
 
-public class ResourceNotFoundException extends RuntimeException{
+public class ResourceNotFoundException extends RuntimeException {
 	private String resourceName;
 	private String fieldName;
 	private Object fieldValue;
@@ -19,6 +19,5 @@ public class ResourceNotFoundException extends RuntimeException{
 	public Object getFieldValue() {
 		return fieldValue;
 	}
-
 
 }

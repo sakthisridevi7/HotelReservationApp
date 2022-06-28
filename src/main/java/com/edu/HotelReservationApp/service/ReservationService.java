@@ -14,6 +14,7 @@ public interface ReservationService {
 
 	Reservation updateReservation(long resId, Reservation reservation);
 
+	//String deleteReservation(long resId);
 	String deleteReservation(long resId);
 
 }

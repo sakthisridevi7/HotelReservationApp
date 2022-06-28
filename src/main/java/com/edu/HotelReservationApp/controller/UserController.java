@@ -3,6 +3,8 @@ package com.edu.HotelReservationApp.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping
-	public ResponseEntity<User> addUser(@RequestBody User user){
+	public ResponseEntity<User> addUser(@Valid @RequestBody User user){
 		return new ResponseEntity<User>(userService.addUser(user),HttpStatus.CREATED);
 	}
 	@GetMapping

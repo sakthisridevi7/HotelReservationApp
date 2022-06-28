@@ -7,48 +7,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edu.HotelReservationApp.entity.User;
+import com.edu.HotelReservationApp.exception.EmailIdNotFoundException;
+import com.edu.HotelReservationApp.exception.FirstNameNotFoundException;
+import com.edu.HotelReservationApp.exception.GivenIdNotFoundException;
+import com.edu.HotelReservationApp.exception.LastNameNotFoundException;
+import com.edu.HotelReservationApp.exception.NameNotFoundException;
+import com.edu.HotelReservationApp.exception.NoRecordFoundException;
+import com.edu.HotelReservationApp.exception.ResourceNotFoundException;
+import com.edu.HotelReservationApp.exception.UsernameNotFoundException;
 import com.edu.HotelReservationApp.repository.UserRepository;
 
-import exception.FirstNameNotFoundException;
-import exception.GivenIdNotFoundException;
-import exception.NoRecordFoundException;
-import exception.ResourceNotFoundException;
 @Service
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRepository userRepos;
 	
-
 	@Override
 	public User addUser(User user) {
 		// TODO Auto-generated method stub
 		return userRepos.save(user);
 	}
-
-
 	@Override
 	public List<User> getUserList() {
 		// TODO Auto-generated method stub
-		List<User> users = userRepos.findAll();
-		if(users.isEmpty()) {
+		
+		List<User> use = userRepos.findAll();
+		if(use.isEmpty()) {
 			throw new NoRecordFoundException();
 		}
-		else
-		{
-			return users;
-		}
+		else {
+			return use;
+		}	
 	}
-
-
 	@Override
 	public User getUserById(long userId) {
-		// TODO Auto-generated method stub
-		/*User user = new User();
-		user = userRepos.findById(userId).orElseThrow(
-				()->new ResourceNotFoundException("User","Id",userId));
-		
-		return user;*/
 		Optional<User> user = userRepos.findById(userId);
 		if(user.isPresent()) {
 			return user.get();
@@ -57,8 +50,6 @@ public class UserServiceImpl implements UserService {
 			throw new GivenIdNotFoundException();
 		}
 	}
-
-
 	@Override
 	public User updateUser(long userId, User user) {
 		// TODO Auto-generated method stub
@@ -73,13 +64,10 @@ public class UserServiceImpl implements UserService {
 		user1.setPassword(user.getPassword());
 		user1.setFullAddress(user.getFullAddress());
 		user1.setAadharNumber(user.getAadharNumber());
-		
-		
+			
 		userRepos.save(user1);
 		return user1;
 	}
-
-
 	@Override
 	public String deleteUser(long userId) {
 		// TODO Auto-generated method stub
@@ -90,12 +78,9 @@ public class UserServiceImpl implements UserService {
 		return "Record is deleted successfully";
 		
 	}
-
-
 	@Override
 	public List<User> getUserByFirstName(String firstName) {
 		// TODO Auto-generated method stub
-		//return userRepos.getUserByFirstName(firstName);
 		List<User> users = userRepos.getUserByFirstName(firstName);
 		if(users.isEmpty()) {
 			throw new FirstNameNotFoundException();
@@ -104,34 +89,52 @@ public class UserServiceImpl implements UserService {
 			return users;
 		}
 	}
-
-
 	@Override
 	public List<User> getUserByLastName(String lastName) {
 		// TODO Auto-generated method stub
-		return userRepos.getUserByLastName(lastName);
+		//return userRepos.getUserByLastName(lastName);
+		List<User> users = userRepos.getUserByLastName(lastName);
+		if(users.isEmpty()) {
+			throw new LastNameNotFoundException();
+		}
+		else {
+			return users;
+		}
 	}
-
-
 	@Override
 	public List<User> getUserByFullName(String firstName, String lastName) {
 		// TODO Auto-generated method stub
-		return userRepos.getUserByFullName(firstName,lastName);
+		
+		List<User> users = userRepos.getUserByFullName(firstName,lastName);
+		if(users.isEmpty()) {
+			throw new NameNotFoundException();			
+		}
+		else {
+			return users;	
+		}
 	}
-
-
 	@Override
 	public User getUserByEmailId(String emailId) {
 		// TODO Auto-generated method stub
-		return userRepos.findByEmailId(emailId);
+		//return userRepos.findByEmailId(emailId);
+		 Optional<User> user = userRepos.findByEmailId(emailId);
+			if(user.isPresent()) {
+				return user.get();	
+			}
+			else {
+				throw new EmailIdNotFoundException();
+			}
 	}
-
-
 	@Override
 	public User getUserByUsername(String username) {
 		// TODO Auto-generated method stub
-		return userRepos.findByUsername(username);
+		//return userRepos.findByUsername(username);
+		 Optional<User> user = userRepos.findByUsername(username);
+			if(user.isPresent()) {
+				return user.get();
+			}
+			else {
+				throw new UsernameNotFoundException();	
+	    }
 	}
-	
-
 }

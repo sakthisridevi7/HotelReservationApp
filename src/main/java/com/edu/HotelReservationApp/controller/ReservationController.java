@@ -32,16 +32,17 @@ public class ReservationController {
 	public List<Reservation> getReservationList(){
 		return reservationService.getReservationList();
 	}
-	@GetMapping("/{id}")
-	public Reservation getReservationById(@PathVariable("id")long resId) {
+	@GetMapping("/{resId}")
+	public Reservation getReservationById(@PathVariable("resId")long resId) {
 		return reservationService.getReservationById(resId);
 	}
-	@PutMapping("/{id}")
-	public Reservation updateReservation(@PathVariable("id")long resId,@RequestBody Reservation reservation) {
+	@PutMapping("/{resId}")
+	public Reservation updateReservation(@PathVariable("resId")long resId,@RequestBody Reservation reservation) {
 		return reservationService.updateReservation(resId,reservation);
 	}
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteReservation(@PathVariable("id")long resId){
+	
+	@DeleteMapping("/{resId}")
+	public ResponseEntity<String> deleteReservation(@PathVariable("resId") long resId){
 		return new ResponseEntity<String>(reservationService.deleteReservation(resId),HttpStatus.OK);
 	}
 
