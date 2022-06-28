@@ -1,12 +1,14 @@
 package com.edu.HotelReservationApp.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -17,7 +19,10 @@ public class Room {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator ="room_details_seq")
 	private long roomId;
+	@Column(nullable=false,unique= true)
 	private String roomNo;
+	@Column(nullable=false)
+	@Size(min=1,max=3)
 	private String noOfBed;
 	private double roomFare;
 	private boolean status;

@@ -2,6 +2,8 @@ package com.edu.HotelReservationApp.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,7 @@ public class RoomController {
 	RoomService roomService;
 	
 	@PostMapping
-	public ResponseEntity<Room> addRoom(@RequestBody Room room){
+	public ResponseEntity<Room> addRoom(@Valid @RequestBody Room room){
 		return new ResponseEntity<Room>(roomService.addRoom(room),HttpStatus.CREATED);
 		
 	}

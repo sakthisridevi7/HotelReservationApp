@@ -28,6 +28,8 @@ public class Reservation {
 	@NotNull
 	@Size(max=3)
 	private int noOfGuest;
+	@Column(nullable=false)
+	@NotNull
 	private int stayDays;
 	private Date checkInDateTime;
 	private Date checkOutDateTime;

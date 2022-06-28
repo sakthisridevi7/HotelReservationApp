@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -32,6 +33,8 @@ public class User {
 	@Column(nullable=false)
 	@NotBlank(message="Last name is mandatory")
 	private String lastName;
+	@Column(nullable=false)
+	@Size(min=10,max=17,message="Contact number should be between 10 and 17")
 	private String contactNo;
 	@Column(nullable= false, unique = true)
 	@NotBlank(message="Username is mandatory")
@@ -44,6 +47,8 @@ public class User {
 	@Email(message="Invalid email id")
 	private String emailId;
 	private long aadharNumber;
+	@Column(nullable=false)
+	@NotBlank(message="Address is mandatory")
 	private String fullAddress;
 	
 	@OneToMany(mappedBy="user",cascade= CascadeType.REMOVE)
