@@ -24,14 +24,14 @@ public class RoomRepositoryTest {
 	
 	@Test
 	public void addRoomTest() {
-		Room room  = roomRepos.save(new Room(4,"4","2",4000,true));
+		Room room  = roomRepos.save(new Room(4,"15","2",4000,true));
 		
 		Assertions.assertThat(room.getRoomId()).isGreaterThan(0);
 	}
 	
 	@Test
 	public void getRoomTest() {
-		Room room  = roomRepos.findById(53L).get();
+		Room room  = roomRepos.findById(503L).get();
 		
 		Assertions.assertThat(room.getRoomId()).isEqualTo(53L);
 	}
@@ -45,25 +45,25 @@ public class RoomRepositoryTest {
 	
 	@Test
 	public void updateRoomTest() {
-		Room room  = roomRepos.findById(1L).get();
+		Room room  = roomRepos.findById(153L).get();
 		
-		room.setStatus(true);
+		room.setStatus(false);
 		
 		Room update = roomRepos.save(room);
 		
-		Assertions.assertThat(update.isStatus()).isEqualTo(true);
+		Assertions.assertThat(update.isStatus()).isEqualTo(false);
 	}
-	/*@Test
-	public void deleteUserTest() {
+	@Test
+	public void deleteRoomTest() {
 		Room rom = roomRepos.findById(2L).get();
 		roomRepos.delete(rom);
 		Room room  = null;
-		Optional<Room> room1 = roomRepos.findByAadharNumber(652127883865L);
+		Optional<Room> room1 = roomRepos.findByRoomFare(4000.00);
 		if(room1.isPresent()) {
 			room = room1.get();
 		}
 		Assertions.assertThat(room).isNull();
-	}*/
+	}
 	
 
 }

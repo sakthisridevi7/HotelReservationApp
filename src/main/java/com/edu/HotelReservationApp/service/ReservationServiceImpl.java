@@ -63,7 +63,7 @@ public class ReservationServiceImpl implements ReservationService{
 		reserv.setStayDays(reservation.getStayDays());
 		reserv.setNoOfGuest(reservation.getNoOfGuest());
 		reserv.setCheckInDateTime(reservation.getCheckInDateTime());
-		reserv.setCheckOutDateTime(reservation.getCheckOutDateTime());
+		reserv.setCheckOutDateTime(reservation.getCheckInDateTime().plusDays(reservation.getStayDays()));
 		reservationRepos.save(reserv);
 		return reserv;
 	}

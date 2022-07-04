@@ -26,7 +26,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name="user_details",
 uniqueConstraints = {@UniqueConstraint(columnNames= {"username"}),
                      @UniqueConstraint(columnNames= {"emailId"}),
-					 @UniqueConstraint(columnNames= {"aadharNumber"})})
+					 @UniqueConstraint(columnNames= {"aadharNumber"}),
+					 @UniqueConstraint(columnNames= {"contactNo"})})
 public class User {
 	@Id
 	@GeneratedValue( generator = "seq",strategy=GenerationType.AUTO)
@@ -40,19 +41,19 @@ public class User {
 	@NotBlank(message="Last name is mandatory")
 	private String lastName;
 	@Column(nullable=false)
-	@Size(min=10,max=17,message="Contact number should be between 10 and 17")
+	@Size(min=10,max=13,message="Contact number should be between 10 and 17")
 	private String contactNo;
-	@Column(nullable= false, unique = true)
+	@Column(nullable= false)
 	@NotBlank(message="Username is mandatory")
 	private String username;
 	@NotEmpty
 	@Size(min = 8 , message = "password should have atleast 8 characters")
 	private String password;
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	@NotBlank(message="Email is mandatory")
 	@Email(message="Invalid email id")
 	private String emailId;
-	@Column(nullable=false, unique=true)
+	@Column(nullable=false)
 	@NotBlank(message="Aadhar Number is mandatory")
 	private String aadharNumber;
 	@Column(nullable=false)

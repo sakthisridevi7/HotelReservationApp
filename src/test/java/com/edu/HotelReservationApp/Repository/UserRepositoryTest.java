@@ -22,16 +22,17 @@ public class UserRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
 	
-	/*@Test
+	@Test
 	public void addUserTest() {
-		User user = userRepository.save(new User(103,"efgh","ijkl","98713872","userEFGH","ab341","efgh@gmail.com",652127883865L,"Chennai"));
+		User user = userRepository.save(new User(103,"efgh","ijkl","98713870982","userEFGH","ab3vghj41","efgh@gmail.com","652127883865","Chennai"));
 		
 		Assertions.assertThat(user.getUserId()).isGreaterThan(0);
-	}*/
+	}
 	
 	@Test
+	
 	public void getUserTest() {
-		User user = userRepository.findById(102L).get();
+		User user = userRepository.findById(202L).get();
 		
 		Assertions.assertThat(user.getUserId()).isEqualTo(102L);
 	}
@@ -55,10 +56,10 @@ public class UserRepositoryTest {
 	}
 	@Test
 	public void deleteUserTest() {
-		User us = userRepository.findById(502L).get();
+		User us = userRepository.findById(752L).get();
 		userRepository.delete(us);
 		User user = null;
-		Optional<User> user1 = userRepository.findByAadharNumber(652127883865L);
+		Optional<User> user1 = userRepository.findByAadharNumber("318974210987");
 		if(user1.isPresent()) {
 			user = user1.get();
 		}

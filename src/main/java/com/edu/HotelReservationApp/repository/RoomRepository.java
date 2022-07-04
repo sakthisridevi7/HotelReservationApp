@@ -18,6 +18,8 @@ public interface RoomRepository extends JpaRepository<Room,Long>{
 
 	List<Room> findByStatus(boolean status);
 
+	Optional<Room> findByRoomFare(double d);
+
 	
 
 }
