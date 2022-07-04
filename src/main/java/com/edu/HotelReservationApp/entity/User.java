@@ -8,8 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,11 +23,14 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="user_details")
+@Table(name="user_details",
+uniqueConstraints = {@UniqueConstraint(columnNames= {"username"}),
+                     @UniqueConstraint(columnNames= {"emailId"}),
+					 @UniqueConstraint(columnNames= {"aadharNumber"})})
 public class User {
-	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "user_details_seq")
+	@GeneratedValue( generator = "seq",strategy=GenerationType.AUTO)
+	@SequenceGenerator(name="seq",initialValue=1)
 	private long userId;
 	@Column(nullable=false)
 	@NotNull
@@ -46,17 +52,23 @@ public class User {
 	@NotBlank(message="Email is mandatory")
 	@Email(message="Invalid email id")
 	private String emailId;
-	private long aadharNumber;
+	@Column(nullable=false, unique=true)
+	@NotBlank(message="Aadhar Number is mandatory")
+	private String aadharNumber;
 	@Column(nullable=false)
 	@NotBlank(message="Address is mandatory")
 	private String fullAddress;
+	
+	@Lob
+	@Column(length=Integer.MAX_VALUE,nullable=true)
+	private byte[] profilePicture;
 	
 	@OneToMany(mappedBy="user",cascade= CascadeType.REMOVE)
 	@JsonIgnoreProperties("user")
 	private List<Reservation> reservation;
 	
 	public User(long userId, String firstName, String lastName, String contactNo, String username, String password,
-			String emailId, long aadharNumber, String fullAddress, List<Reservation> reservation) {
+			String emailId, String aadharNumber, String fullAddress, List<Reservation> reservation) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
@@ -105,12 +117,6 @@ public class User {
 	public void setContactNo(String contactNo) {
 		this.contactNo = contactNo;
 	}
-	public String getUserName() {
-		return username;
-	}
-	public void setUserName(String username) {
-		this.username = username;
-	}
 	public String getPassword() {
 		return password;
 	}
@@ -123,10 +129,10 @@ public class User {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public long getAadharNumber() {
+	public String getAadharNumber() {
 		return aadharNumber;
 	}
-	public void setAadharNumber(long aadharNumber) {
+	public void setAadharNumber(String aadharNumber) {
 		this.aadharNumber = aadharNumber;
 	}
 	public String getFullAddress() {
@@ -143,8 +149,8 @@ public class User {
 				+ "]";
 	}
 	public User(long userId, String firstName, String lastName, String contactNo, String username, String password,
-			String emailId, long aadharNumber, String fullAddress) {
-		super();
+			String emailId, String aadharNumber, String fullAddress) {
+		super(); 
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;

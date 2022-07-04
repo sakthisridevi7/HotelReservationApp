@@ -7,22 +7,27 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
+import javax.persistence.UniqueConstraint;
+
+import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="room_details")
+@Table(name="room_details",
+uniqueConstraints = {@UniqueConstraint(columnNames= {"roomNo"})})
 public class Room {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator ="room_details_seq")
+	@GeneratedValue( generator = "seq",strategy=GenerationType.AUTO)
+	@SequenceGenerator(name="seq",initialValue=101)
 	private long roomId;
 	@Column(nullable=false,unique= true)
 	private String roomNo;
 	@Column(nullable=false)
-	@Size(min=1,max=3)
+	@Range(min=1,max=3,message="No of bed should be between 1 and 3")
 	private String noOfBed;
 	private double roomFare;
 	private boolean status;

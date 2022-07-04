@@ -40,7 +40,7 @@ public class RoomController {
 		return roomService.getRoomById(roomId);
 	}
 	@PutMapping("/{id}")
-	public Room updateRoom(@PathVariable("id")long roomId, @RequestBody Room room) {
+	public Room updateRoom(@PathVariable("id")long roomId,@Valid @RequestBody Room room) {
 		return roomService.updateRoom(roomId,room);
 	}
 	@DeleteMapping("/{id}")

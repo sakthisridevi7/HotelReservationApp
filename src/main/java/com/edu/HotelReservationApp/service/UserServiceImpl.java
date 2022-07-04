@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 		user1.setLastName(user.getLastName());
 		user1.setContactNo(user.getContactNo());
 		user1.setEmailId(user.getEmailId());
-		user1.setUserName(user.getUserName());
+		user1.setUsername(user.getUsername());
 		user1.setPassword(user.getPassword());
 		user1.setFullAddress(user.getFullAddress());
 		user1.setAadharNumber(user.getAadharNumber());

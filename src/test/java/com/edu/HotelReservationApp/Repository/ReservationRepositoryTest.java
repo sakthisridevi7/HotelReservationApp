@@ -2,7 +2,8 @@ package com.edu.HotelReservationApp.Repository;
 
 
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,8 @@ public class ReservationRepositoryTest {
 	
 	/*@Test
 	public void saveReservationTest() {
-		Date d = new Date(2022,06,17);
-		Date d1 = new Date(2022,06,20);
+		LocalDateTime d = new LocalDateTime(2022,06,17);
+		LocalDateTime d1 = new LocalDateTime(2022,06,20);
 		Reservation reservation = reservationRepos.save(new Reservation(4,3,3,d,d1));
 		Assertions.assertThat(reservation.getResId()).isGreaterThan(0);
 	}*/

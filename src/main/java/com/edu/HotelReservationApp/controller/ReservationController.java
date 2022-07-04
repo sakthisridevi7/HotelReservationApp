@@ -39,7 +39,7 @@ public class ReservationController {
 		return reservationService.getReservationById(resId);
 	}
 	@PutMapping("/{resId}")
-	public Reservation updateReservation(@PathVariable("resId")long resId,@RequestBody Reservation reservation) {
+	public Reservation updateReservation(@PathVariable("resId")long resId,@Valid @RequestBody Reservation reservation) {
 		return reservationService.updateReservation(resId,reservation);
 	}
 	
