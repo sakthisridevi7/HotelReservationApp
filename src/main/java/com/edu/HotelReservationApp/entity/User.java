@@ -30,8 +30,8 @@ uniqueConstraints = {@UniqueConstraint(columnNames= {"username"}),
 					 @UniqueConstraint(columnNames= {"contactNo"})})
 public class User {
 	@Id
-	@GeneratedValue( generator = "seq",strategy=GenerationType.AUTO)
-	@SequenceGenerator(name="seq",initialValue=1)
+	@GeneratedValue( generator = "seq1",strategy=GenerationType.AUTO)
+	@SequenceGenerator(name="seq1",initialValue=1)
 	private long userId;
 	@Column(nullable=false)
 	@NotNull
@@ -41,7 +41,7 @@ public class User {
 	@NotBlank(message="Last name is mandatory")
 	private String lastName;
 	@Column(nullable=false)
-	@Size(min=10,max=13,message="Contact number should be between 10 and 17")
+	@Size(min=10,message="Contact number must be 10 digits")
 	private String contactNo;
 	@Column(nullable= false)
 	@NotBlank(message="Username is mandatory")
@@ -59,10 +59,7 @@ public class User {
 	@Column(nullable=false)
 	@NotBlank(message="Address is mandatory")
 	private String fullAddress;
-	
-	@Lob
-	@Column(length=Integer.MAX_VALUE,nullable=true)
-	private byte[] profilePicture;
+
 	
 	@OneToMany(mappedBy="user",cascade= CascadeType.REMOVE)
 	@JsonIgnoreProperties("user")
@@ -161,6 +158,14 @@ public class User {
 		this.emailId = emailId;
 		this.aadharNumber = aadharNumber;
 		this.fullAddress = fullAddress;
+	}
+	
+	public User(long userId, @NotNull @NotBlank(message = "First name is mandatory") String firstName,
+			@NotBlank(message = "Email is mandatory") @Email(message = "Invalid email id") String emailId) {
+		super();
+		this.userId = userId;
+		this.firstName = firstName;
+		this.emailId = emailId;
 	}
 	public User() {
 		super();

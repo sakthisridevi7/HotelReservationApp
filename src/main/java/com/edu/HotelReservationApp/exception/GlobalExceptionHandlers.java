@@ -62,4 +62,8 @@ public class GlobalExceptionHandlers {
 		return new ResponseEntity<Map<String,String>>(errors,HttpStatus.BAD_REQUEST);
 		
 	}
+	@ExceptionHandler(RecordAlreadyExistException.class)
+	public ResponseEntity<Object>handleRecordAlreadyExistException(){
+		return new ResponseEntity<Object>("Record is already exist",HttpStatus.NOT_FOUND);
+	}
 }

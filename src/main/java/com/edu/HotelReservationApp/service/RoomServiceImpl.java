@@ -1,6 +1,8 @@
 package com.edu.HotelReservationApp.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.edu.HotelReservationApp.entity.Room;
 import com.edu.HotelReservationApp.exception.GivenIdNotFoundException;
 import com.edu.HotelReservationApp.exception.NoRecordFoundException;
-import com.edu.HotelReservationApp.exception.ResourceNotFoundException;
+import com.edu.HotelReservationApp.exception.RecordAlreadyExistException;
 import com.edu.HotelReservationApp.exception.RoomNotFoundException;
 import com.edu.HotelReservationApp.exception.StatusRecordNotFoundException;
 import com.edu.HotelReservationApp.repository.RoomRepository;
@@ -41,12 +43,6 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public Room getRoomById(long roomId) {
 		// TODO Auto-generated method stub
-		/*Room room = new Room();
-		room = roomRepos.findById(roomId).orElseThrow(
-				()->new ResourceNotFoundException("Room","Id",roomId));
-		roomRepos.findById(roomId);
-				
-		return room;*/
 		Optional<Room> room = roomRepos.findById(roomId);
 		if(room.isPresent()) {
 			return room.get();
@@ -62,7 +58,7 @@ public class RoomServiceImpl implements RoomService{
 		// TODO Auto-generated method stub
 		Room room1 = new Room();
 		room1 = roomRepos.findById(roomId).orElseThrow(
-				()->new ResourceNotFoundException("Room","Id",roomId));
+				()->new GivenIdNotFoundException());
 		roomRepos.findById(roomId);
 		
 		room1.setRoomNo(room.getRoomNo());
@@ -79,7 +75,7 @@ public class RoomServiceImpl implements RoomService{
 		// TODO Auto-generated method stub
 		Room room = new Room();
 		room = roomRepos.findById(roomId).orElseThrow(
-				()->new ResourceNotFoundException("User","Id",roomId));
+				()->new GivenIdNotFoundException());
 		roomRepos.deleteById(roomId);
 		return "Record is deleted successfully";
 		
@@ -88,7 +84,6 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public Room getRoomByRoomNo(String roomNo) {
 		// TODO Auto-generated method stub
-		//return roomRepos.getRoomByRoomNo(roomNo);
 		Optional<Room> room = roomRepos.getRoomByRoomNo(roomNo);
 		if(room.isPresent()) {
 			return room.get();
@@ -101,7 +96,6 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public List<Room> getRoomByNoOfBed(String noOfBed) {
 		// TODO Auto-generated method stub
-		//return roomRepos.getRoomByNoOfBed(noOfBed);
 		List<Room> rooms = roomRepos.getRoomByNoOfBed(noOfBed);
 		if(rooms.isEmpty()) {
 			throw new NoRecordFoundException();
@@ -114,7 +108,7 @@ public class RoomServiceImpl implements RoomService{
 	@Override
 	public List<Room> getRoomByStatus(boolean status) {
 		// TODO Auto-generated method stub
-		//return roomRepos.findByStatus(status);
+		
 		List<Room> rooms = roomRepos.findByStatus(status);
 		if(rooms.isEmpty()) {
 			throw new StatusRecordNotFoundException();
@@ -123,6 +117,28 @@ public class RoomServiceImpl implements RoomService{
 			return rooms;
 		}
 	}
+
+	@Override
+	public Map<Object, Object> getRoomGroupByStatus() {
+		// TODO Auto-generated method stub
+		List<Object[]> objects = roomRepos.getRoomGroupByStatus();
+		Map<Object,Object> map=new HashMap<>();
+		for(Object[] obj : objects) {
+			map.put(obj[0],obj[1]);
+		}
+		return map;
+	}
+
+	public Room saveRoom(Room room1) {
+		// TODO Auto-generated method stub
+		Optional<Room> ro=roomRepos.findById(room1.getRoomId());
+		if(!ro.isPresent())
+		return roomRepos.save(room1);
+		else
+			throw new RecordAlreadyExistException();
+	
+	}
+	
 	
 	
 	

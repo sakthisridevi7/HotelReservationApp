@@ -15,10 +15,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -27,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Reservation {
 	
 	@Id
-	@GeneratedValue(generator = "seq",strategy=GenerationType.AUTO)
-	@SequenceGenerator(name="seq",initialValue=201)
+	@GeneratedValue(generator = "seq3",strategy=GenerationType.AUTO)
+	@SequenceGenerator(name="seq3",initialValue=401)
 	private long resId;
 	@Column(nullable=false)
 	@NotNull
@@ -38,6 +42,8 @@ public class Reservation {
 	@NotNull
 	private int stayDays;
 	private LocalDateTime reserveDate;
+	//@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Future(message="Enter Upcoming Date")
 	private LocalDateTime checkInDateTime;
 	private LocalDateTime checkOutDateTime;
 	
@@ -47,8 +53,6 @@ public class Reservation {
 		this.checkOutDateTime=checkInDateTime.plusDays(stayDays);
 	}
 	
-	
-
 	@ManyToOne
 	@JoinColumn(name="userId")
 	@JsonIgnoreProperties("reservation")
@@ -177,7 +181,13 @@ public class Reservation {
 		this.room = room;
 	}
 
-	
-	
-	
+	public Reservation(long resId, @NotNull @Range(min = 1, max = 3, message = "Maximum Guest is 3") int noOfGuest,
+			@NotNull int stayDays, LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime) {
+		super();
+		this.resId = resId;
+		this.noOfGuest = noOfGuest;
+		this.stayDays = stayDays;
+		this.checkInDateTime = checkInDateTime;
+		this.checkOutDateTime = checkOutDateTime;
+	}
 }

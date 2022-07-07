@@ -69,5 +69,6 @@ public class UserController {
 	public User getUserByUserName(@PathVariable("username")String username) {
 		return userService.getUserByUsername(username);
 	}
+	
 
 }

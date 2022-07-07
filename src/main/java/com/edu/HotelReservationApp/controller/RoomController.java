@@ -1,6 +1,7 @@
 package com.edu.HotelReservationApp.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -60,6 +61,9 @@ public class RoomController {
 	public List<Room> getRoomByStatus(@PathVariable("status") boolean status){
 		return roomService.getRoomByStatus(status);
 	}
-	
+	@GetMapping("/GetRoomGroupByStatus")
+	public ResponseEntity<Map<Object , Object>> getRoomGroupByStatus(){
+		return new ResponseEntity<Map<Object,Object>>(roomService.getRoomGroupByStatus(),HttpStatus.OK);
+	}
 
 }

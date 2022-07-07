@@ -1,5 +1,6 @@
 package com.edu.HotelReservationApp.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.edu.HotelReservationApp.entity.Reservation;
 import com.edu.HotelReservationApp.exception.GivenIdNotFoundException;
 import com.edu.HotelReservationApp.exception.NoRecordFoundException;
-import com.edu.HotelReservationApp.exception.ResourceNotFoundException;
+import com.edu.HotelReservationApp.exception.RecordAlreadyExistException;
 import com.edu.HotelReservationApp.repository.ReservationRepository;
 
 
@@ -57,11 +58,12 @@ public class ReservationServiceImpl implements ReservationService{
 		// TODO Auto-generated method stub
 		Reservation reserv = new Reservation();
 		reserv = reservationRepos.findById(resId).orElseThrow(
-				()-> new ResourceNotFoundException("Reservation","Id",resId));
+				()-> new GivenIdNotFoundException());
 		
 		reserv.setResId(reservation.getResId());
 		reserv.setStayDays(reservation.getStayDays());
 		reserv.setNoOfGuest(reservation.getNoOfGuest());
+		reserv.setReserveDate(reservation.getReserveDate().now());
 		reserv.setCheckInDateTime(reservation.getCheckInDateTime());
 		reserv.setCheckOutDateTime(reservation.getCheckInDateTime().plusDays(reservation.getStayDays()));
 		reservationRepos.save(reserv);
@@ -73,13 +75,63 @@ public class ReservationServiceImpl implements ReservationService{
 		// TODO Auto-generated method stub
 		Reservation reservation = new Reservation();
 		reservation = reservationRepos.findById(resId).orElseThrow(
-				()-> new ResourceNotFoundException("Reservation","Id",resId));
+				()-> new GivenIdNotFoundException());
 		
 		reservationRepos.deleteById(resId);
 		return "Record is deleted successfully";
 	}
 
+	@Override
+	public List<Reservation> getReservationByCheckInDateTime(LocalDateTime checkInDateTime) {
+		// TODO Auto-generated method stub
+		//System.out.println(checkInDateTime);
+		List<Reservation> reservation = reservationRepos.getReservationByCheckInDateTime(checkInDateTime);
+		if(reservation.isEmpty()) {
+			throw new NoRecordFoundException();
+		}
+		else {
+			return reservation;
+		}
+	}
+	public Reservation saveReserv(Reservation reserv1) {
+		// TODO Auto-generated method stub
+		Optional<Reservation> res=reservationRepos.findById(reserv1.getResId());
+		if(!res.isPresent())
+		return reservationRepos.save(reserv1);
+		else
+			throw new RecordAlreadyExistException();
+	}
+	@Override
+	public List<Reservation> getReservationByUserId(long userId) {
+		// TODO Auto-generated method stub
+
+		List<Reservation> reservation = reservationRepos.getReservationByUserId(userId);
+		if(reservation.isEmpty()) 
+			throw new GivenIdNotFoundException();
+		else 
+			return reservation;
+	}
+	@Override
+	public List<Reservation> getReservationByDateRange(LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime) {
+		// TODO Auto-generated method stub
+		return reservationRepos.getReservationByDateRange(checkInDateTime,checkOutDateTime);
+	}
+	@Override
+	public List<Reservation> getReservationDateByReserveDate(LocalDateTime reserveDate) {
+		// TODO Auto-generated method stub
+		List<Reservation> reservation = reservationRepos.getReservationDateByReserveDate(reserveDate);
+		if(reservation.isEmpty()) {
+			throw new NoRecordFoundException();
+		}
+		else {
+			return reservation;
+		}
+	}
+	
+}
+	
+
 	
 	
 
-}
+

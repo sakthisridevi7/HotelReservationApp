@@ -1,6 +1,7 @@
 package com.edu.HotelReservationApp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.edu.HotelReservationApp.entity.Room;
 
@@ -21,5 +22,7 @@ public interface RoomService {
 	List<Room> getRoomByNoOfBed(String noOfBed);
 
 	List<Room> getRoomByStatus(boolean status);
+
+	Map<Object, Object> getRoomGroupByStatus();
 
 }

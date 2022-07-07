@@ -1,10 +1,12 @@
 package com.edu.HotelReservationApp.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.edu.HotelReservationApp.entity.Reservation;
@@ -46,6 +50,22 @@ public class ReservationController {
 	@DeleteMapping("/{resId}")
 	public ResponseEntity<String> deleteReservation(@PathVariable("resId") long resId){
 		return new ResponseEntity<String>(reservationService.deleteReservation(resId),HttpStatus.OK);
+	}
+	@GetMapping("/GetReservationDateInfo/{reserveDate}")
+	public List<Reservation> getReservationDateByReserveDate(@PathVariable("reserveDate")String reserveDate){
+		return reservationService.getReservationDateByReserveDate(LocalDateTime.parse(reserveDate));
+	}
+	@GetMapping("/GetCheckInInfo/{checkInDateTime}")
+	public List<Reservation> getReservationByCheckInDateTime(@PathVariable("checkInDateTime")String checkInDateTime){
+		return reservationService.getReservationByCheckInDateTime(LocalDateTime.parse(checkInDateTime));
+	}
+	@GetMapping("/getReservationByUserId/{userId}")
+	public List<Reservation> getReservationByUserId(@PathVariable("userId")long userId){
+		return reservationService.getReservationByUserId(userId);
+	}
+	@GetMapping("/getReservationByDateRange/{checkInDateTime}/{checkOutDateTime}")
+	public List<Reservation> getReservationByDateRange(@PathVariable("checkInDateTime") String checkInDateTime,@PathVariable("checkOutDateTime")String checkOutDateTime){
+		return reservationService.getReservationByDateRange(LocalDateTime.parse(checkInDateTime),LocalDateTime.parse(checkOutDateTime));
 	}
 
 }
