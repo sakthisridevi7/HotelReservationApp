@@ -15,14 +15,11 @@ public interface ReservationService {
 
 	Reservation updateReservation(long resId, Reservation reservation);
 
-	//String deleteReservation(long resId);
 	String deleteReservation(long resId);
 
 	List<Reservation> getReservationByCheckInDateTime(LocalDateTime checkInDateTime);
 
 	List<Reservation> getReservationByUserId(long userId);
-
-	List<Reservation> getReservationByDateRange(LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime);
 
 	List<Reservation> getReservationDateByReserveDate(LocalDateTime reserveDate);
 

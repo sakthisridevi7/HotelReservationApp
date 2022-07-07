@@ -111,11 +111,7 @@ public class ReservationServiceImpl implements ReservationService{
 		else 
 			return reservation;
 	}
-	@Override
-	public List<Reservation> getReservationByDateRange(LocalDateTime checkInDateTime, LocalDateTime checkOutDateTime) {
-		// TODO Auto-generated method stub
-		return reservationRepos.getReservationByDateRange(checkInDateTime,checkOutDateTime);
-	}
+	
 	@Override
 	public List<Reservation> getReservationDateByReserveDate(LocalDateTime reserveDate) {
 		// TODO Auto-generated method stub

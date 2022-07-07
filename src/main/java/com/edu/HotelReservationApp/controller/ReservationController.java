@@ -63,9 +63,5 @@ public class ReservationController {
 	public List<Reservation> getReservationByUserId(@PathVariable("userId")long userId){
 		return reservationService.getReservationByUserId(userId);
 	}
-	@GetMapping("/getReservationByDateRange/{checkInDateTime}/{checkOutDateTime}")
-	public List<Reservation> getReservationByDateRange(@PathVariable("checkInDateTime") String checkInDateTime,@PathVariable("checkOutDateTime")String checkOutDateTime){
-		return reservationService.getReservationByDateRange(LocalDateTime.parse(checkInDateTime),LocalDateTime.parse(checkOutDateTime));
-	}
-
+	
 }

@@ -41,7 +41,7 @@ public class User {
 	@NotBlank(message="Last name is mandatory")
 	private String lastName;
 	@Column(nullable=false)
-	@Size(min=10,message="Contact number must be 10 digits")
+	@Size(min=10,max=10,message="Contact number must be 10 digits")
 	private String contactNo;
 	@Column(nullable= false)
 	@NotBlank(message="Username is mandatory")
